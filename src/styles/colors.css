@@ -1,0 +1,10 @@
+/* Premium Earth Tone Color Palette */
+:root {
+  --color-primary: #8B6F47; /* Warm brown */
+  --color-primary-hover: #7D5A3D; /* Darker brown */
+  --color-primary-light: #FEF3C7; /* Amber-50 equivalent */
+  --color-text-dark: #333333;
+  --color-text-medium: #666666;
+  --color-text-light: #999999;
+  --color-background: #FAF7F3;
+}
