@@ -7,7 +7,11 @@ export default function VipSuccessPage() {
   useEffect(() => {
     if (trackedRef.current) return;
     trackedRef.current = true;
-    trackEvent("purchase", { section: "vip_success" });
+    trackEvent("purchase", {
+      value: 1.99,
+      currency: "USD",
+      section: "vip_success",
+    });
     trackEvent("checkout_success", { section: "vip_success" });
   }, []);
 
