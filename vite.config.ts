@@ -1,5 +1,5 @@
 import { defineConfig } from 'vite'
-import path from 'path'
+import { fileURLToPath, URL } from 'node:url'
 import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
 
@@ -8,16 +8,17 @@ function figmaAssetPlugin() {
   return {
     name: 'figma-asset-resolver',
     resolveId(source: string) {
-      if (source.startsWith('../assets/')) {
+      if (typeof source === 'string' && source.indexOf('../assets/') === 0) {
         const filename = source.replace('../assets/', '')
-        return path.resolve(__dirname, './src/assets/', filename)
+        return fileURLToPath(new URL(`./src/assets/${filename}`, import.meta.url))
       }
       return null
-    }
+    },
   }
 }
 
 export default defineConfig({
+  base: '/WoafyPet_LandingPage/',
   plugins: [
     figmaAssetPlugin(),
     react(),
@@ -25,7 +26,7 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
 })
