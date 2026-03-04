@@ -18,7 +18,8 @@ function figmaAssetPlugin() {
 }
 
 export default defineConfig({
-  base: '/WoafyPet_LandingPage/',
+  // Staging (GitHub Pages) uses the repo sub-path; production uses root '/'
+  base: process.env.VITE_BASE_PATH ?? '/WoafyPet_LandingPage/',
   plugins: [
     figmaAssetPlugin(),
     react(),
