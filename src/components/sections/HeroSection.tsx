@@ -67,7 +67,7 @@ export function HeroSection({
           {/* ✅ Video goes to the very top (no padding above it) */}
           <video
             className="absolute inset-0 h-full w-full object-cover"
-            src="/videos/heroV3.mp4"
+            src={`${import.meta.env.BASE_URL}videos/heroV3.mp4`}
             autoPlay
             muted
             loop

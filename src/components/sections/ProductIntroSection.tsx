@@ -71,7 +71,7 @@ export function ProductIntroSection() {
           <div className="relative -mt-6 md:-mt-10 rounded-[28px] shadow-2xl overflow-hidden bg-white">
             {/* ✅ GIF must be in /public/gifs/productShowcase.gif */}
             <img
-              src="/gifs/productShowcase.gif"
+              src={`${import.meta.env.BASE_URL}gifs/productShowcase.gif`}
               alt="WoafyPet Bed"
               className="w-full h-[320px] sm:h-[420px] md:h-[520px] object-cover"
               loading="eager"
