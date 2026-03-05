@@ -453,6 +453,52 @@ if ($step === '1') {
   }
 }
 
+// ===== Brevo: add/update contact in waitlist (Step 1 only) =====
+if ($step === '1') {
+  $brevoApiKey = cfg_or("BREVO_API_KEY", "");
+  $brevoListId = (int)cfg_or("BREVO_LIST_ID", "2");
+
+  if ($brevoApiKey !== "") {
+    try {
+      $brevoPayload = json_encode([
+        "email"         => $email,
+        "listIds"       => [$brevoListId],
+        "attributes"    => [
+          "FIRSTNAME"   => $name,
+          "SOURCE"      => "website",
+          "UTM_SOURCE"  => $utm_source !== "" ? $utm_source : "direct",
+        ],
+        "updateEnabled" => true,
+      ], JSON_UNESCAPED_UNICODE);
+
+      $ch = curl_init("https://api.brevo.com/v3/contacts");
+      curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_POST           => true,
+        CURLOPT_POSTFIELDS     => $brevoPayload,
+        CURLOPT_HTTPHEADER     => [
+          "api-key: " . $brevoApiKey,
+          "Content-Type: application/json",
+          "Accept: application/json",
+        ],
+        CURLOPT_TIMEOUT        => 10,
+      ]);
+
+      $brevoResp   = curl_exec($ch);
+      $brevoStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+      curl_close($ch);
+
+      if ($brevoStatus >= 300) {
+        error_log("brevo_error: HTTP $brevoStatus | " . $brevoResp);
+      }
+    } catch (Throwable $e) {
+      error_log("brevo_exception: " . $e->getMessage());
+    }
+  } else {
+    error_log("brevo_skip: BREVO_API_KEY missing");
+  }
+}
+
 // ------------------ Waitlist email content (Step 1 only) ------------------
 $emailSent = false;
 
