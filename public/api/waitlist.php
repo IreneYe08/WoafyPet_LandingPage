@@ -453,49 +453,47 @@ if ($step === '1') {
   }
 }
 
-// ===== Brevo: add/update contact in waitlist (Step 1 only) =====
+// ===== Brevo: add/update contact in list (Step 1 only) =====
 if ($step === '1') {
   $brevoApiKey = cfg_or("BREVO_API_KEY", "");
-  $brevoListId = (int)cfg_or("BREVO_LIST_ID", "2");
+  $brevoListId = (int)cfg_or("BREVO_LIST_ID", "13");
 
-  if ($brevoApiKey !== "") {
+  if ($brevoApiKey !== "" && $brevoListId > 0) {
     try {
-      $brevoPayload = json_encode([
+      $payload = json_encode([
         "email"         => $email,
+        "attributes"    => ["FIRSTNAME" => $name],
         "listIds"       => [$brevoListId],
-        "attributes"    => [
-          "FIRSTNAME"   => $name,
-          "SOURCE"      => "website",
-          "UTM_SOURCE"  => $utm_source !== "" ? $utm_source : "direct",
-        ],
         "updateEnabled" => true,
-      ], JSON_UNESCAPED_UNICODE);
+      ]);
 
       $ch = curl_init("https://api.brevo.com/v3/contacts");
       curl_setopt_array($ch, [
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_POST           => true,
-        CURLOPT_POSTFIELDS     => $brevoPayload,
+        CURLOPT_POSTFIELDS     => $payload,
         CURLOPT_HTTPHEADER     => [
           "api-key: " . $brevoApiKey,
           "Content-Type: application/json",
           "Accept: application/json",
         ],
-        CURLOPT_TIMEOUT        => 10,
+        CURLOPT_TIMEOUT        => 8,
       ]);
 
-      $brevoResp   = curl_exec($ch);
-      $brevoStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+      $brevoResp     = curl_exec($ch);
+      $brevoHttpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
       curl_close($ch);
 
-      if ($brevoStatus >= 300) {
-        error_log("brevo_error: HTTP $brevoStatus | " . $brevoResp);
+      // 201 = created, 204 = updated (no body) — both are success
+      if ($brevoHttpCode !== 201 && $brevoHttpCode !== 204) {
+        error_log("brevo_error: HTTP $brevoHttpCode — $brevoResp");
       }
     } catch (Throwable $e) {
       error_log("brevo_exception: " . $e->getMessage());
     }
   } else {
-    error_log("brevo_skip: BREVO_API_KEY missing");
+    if ($brevoApiKey === "") error_log("brevo_skip: BREVO_API_KEY not set");
+    if ($brevoListId <= 0)  error_log("brevo_skip: BREVO_LIST_ID invalid");
   }
 }
 

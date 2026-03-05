@@ -13,12 +13,12 @@
 name: Deploy Production (Hostinger FTP)
 
 on:
-  push:
-    branches:
-      - production
-    tags:
-      - 'v*.*.*'              # also fires on version tags (v0.1.0, v0.1.1, …)
-  workflow_dispatch:          # allow manual trigger for emergency deploys
+  workflow_dispatch:          # ONLY manual trigger — review on GitHub Pages first, then run this
+    inputs:
+      branch:
+        description: 'Branch to deploy (leave blank for main)'
+        required: false
+        default: 'main'
 
 # Prevent two production deploys from running at the same time.
 concurrency:
@@ -32,6 +32,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.branch || 'main' }}
 
       - name: Setup Node 20
         uses: actions/setup-node@v4

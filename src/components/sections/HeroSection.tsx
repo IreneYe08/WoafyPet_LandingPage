@@ -67,13 +67,16 @@ export function HeroSection({
           {/* ✅ Video goes to the very top (no padding above it) */}
           <video
             className="absolute inset-0 h-full w-full object-cover"
-            src={`${import.meta.env.BASE_URL}videos/heroV3.mp4`}
             autoPlay
             muted
             loop
             playsInline
-            preload="auto"
-          />
+            preload="metadata"
+            poster="/images/hero-poster.jpg"
+          >
+            <source src="/videos/heroV3.webm" type="video/webm" />
+            <source src="/videos/heroV3.mp4" type="video/mp4" />
+          </video>
 
           {/* ✅ 25% dark overlay */}
           <div className="absolute inset-0 bg-black/25" />
