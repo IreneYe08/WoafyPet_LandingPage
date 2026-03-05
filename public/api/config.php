@@ -22,6 +22,10 @@ return [
   "PROMO_PREFIX" => getenv("PROMO_PREFIX") ?: "WOAFY",
   "PROMO_EXPIRES_DAYS" => (int)(getenv("PROMO_EXPIRES_DAYS") ?: "365"),
 
+  // ===== Brevo (contact list sync) =====
+  "BREVO_API_KEY" => getenv("BREVO_API_KEY") ?: "",
+  "BREVO_LIST_ID" => (int)(getenv("BREVO_LIST_ID") ?: "13"),
+
   // ===== Lark internal notification =====
   "LARK_BOT_WEBHOOK_URL" => getenv("LARK_BOT_WEBHOOK_URL") ?: "",
   "LARK_NOTIFY_PREFIX"  => getenv("LARK_NOTIFY_PREFIX") ?: "[woafmeow.com]",
