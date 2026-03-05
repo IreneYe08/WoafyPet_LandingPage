@@ -28,6 +28,8 @@ export function MediaLogosSection() {
             src={logo.src}
             alt={`Media Logo ${index + 1}`}
             className={`${logo.maxH} w-auto object-contain grayscale hover:grayscale-0 transition duration-300 opacity-70 hover:opacity-100`}
+            loading="lazy"
+            decoding="async"
           />
         ))}
       </div>

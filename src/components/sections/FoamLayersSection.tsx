@@ -38,6 +38,8 @@ export function FoamLayersSection() {
                 src={foamLayersImage}
                 alt="High Quality Foam Layers"
                 className="absolute inset-0 w-full h-full object-cover"
+                loading="lazy"
+                decoding="async"
               />
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-white/70 lg:to-white/85" />
             </div>

@@ -111,12 +111,16 @@ export function AppFeaturesSection() {
                   src={currentContent.image}
                   alt={currentContent.title}
                   className="w-full h-full object-cover"
+                  loading="lazy"
+                  decoding="async"
                 />
               ) : (
                 <img
                   src={currentContent.image}
                   alt={currentContent.title}
                   className="w-full h-full object-cover"
+                  loading="lazy"
+                  decoding="async"
                 />
               )}
             </div>

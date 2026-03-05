@@ -16,8 +16,16 @@ import { trackEvent } from '@/lib/analytics';
 /** ⚠️ Stripe 支付链接 */
 const STRIPE_URL = 'https://buy.stripe.com/3cIdRacRW1PW2Efcv7bV600';
 
-/** ✅ API endpoint */
-const WAITLIST_API_URL = '/api/waitlist.php';
+/**
+ * ✅ Brevo API (called directly from the browser so this works on static hosts
+ *    like GitHub Pages as well as the Hostinger PHP server).
+ *
+ *    Set VITE_BREVO_API_KEY in your GitHub Actions secrets / .env.production.
+ *    Set VITE_BREVO_LIST_ID  (defaults to 13 if omitted).
+ */
+const BREVO_API_KEY  = (import.meta as any).env?.VITE_BREVO_API_KEY as string | undefined;
+const BREVO_LIST_ID  = Number((import.meta as any).env?.VITE_BREVO_LIST_ID ?? 13);
+const BREVO_API_URL  = 'https://api.brevo.com/v3/contacts';
 
 /** ✅ Legal pages (change to your real routes if needed) */
 const PRIVACY_URL = '/privacy';
@@ -212,21 +220,30 @@ export function WaitlistModal({
     setIsLoading(true);
 
     try {
-      const response = await fetch(WAITLIST_API_URL, {
+      if (!BREVO_API_KEY) {
+        throw new Error('Brevo API key not configured. Please set VITE_BREVO_API_KEY.');
+      }
+
+      const response = await fetch(BREVO_API_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'api-key': BREVO_API_KEY,
+        },
         body: JSON.stringify({
-          step: 1,
-          name: cleanName,
           email: cleanEmail,
-          consent: true, // backend expects consent bool
+          attributes: { FIRSTNAME: cleanName },
+          listIds: [BREVO_LIST_ID],
+          updateEnabled: true,
         }),
       });
 
-      if (!response.ok) throw new Error(`Server error: ${response.status}`);
-
-      const result = await response.json();
-      if (result.status !== 'success') throw new Error(result.message || 'Submission failed');
+      // 201 = created, 204 = updated — both are success
+      if (response.status !== 201 && response.status !== 204) {
+        const errBody = await response.json().catch(() => ({}));
+        throw new Error((errBody as any).message || `Server error: ${response.status}`);
+      }
 
       setFormData((prev) => ({
         ...prev,

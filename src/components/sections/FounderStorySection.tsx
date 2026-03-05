@@ -12,6 +12,8 @@ export function FounderStorySection() {
               src={founderImage}
               alt="Founder with Bobby"
               className="w-full h-[320px] sm:h-[420px] object-cover"
+              loading="lazy"
+              decoding="async"
             />
           </Card>
         }

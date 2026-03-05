@@ -55,6 +55,8 @@ export function TestimonialsSection() {
                   src={t.image}
                   alt={t.name}
                   className="w-12 h-12 rounded-full object-cover"
+                  loading="lazy"
+                  decoding="async"
                 />
                 <div>
                   <div className="font-semibold text-[#3D3D3D]">{t.name}</div>

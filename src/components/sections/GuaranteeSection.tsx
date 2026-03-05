@@ -18,6 +18,8 @@ export function GuaranteeSection({ onOpenModal }: GuaranteeSectionProps) {
           src={happySeniorDogImage}
           alt="Happy Senior Dog Walking with Owner"
           className="w-full h-[360px] sm:h-[420px] object-cover"
+          loading="lazy"
+          decoding="async"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/45 to-transparent" />
 

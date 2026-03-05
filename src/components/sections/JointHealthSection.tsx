@@ -19,7 +19,7 @@ function JointRow({
     <div className={`grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-10 items-center ${reverse ? 'md:[&>*:first-child]:order-2' : ''}`}>
       <div className="md:col-span-6">
         <Card className="overflow-hidden">
-          <ImageWithFallback src={image} alt={alt} className="w-full h-[260px] sm:h-[340px] object-cover" />
+          <ImageWithFallback src={image} alt={alt} className="w-full h-[260px] sm:h-[340px] object-cover" loading="lazy" decoding="async" />
         </Card>
       </div>
       <div className="md:col-span-6">

@@ -73,6 +73,8 @@ export function ComfortFeaturesSection({ onOpenModal }: ComfortFeaturesSectionPr
               src={currentFeature.image}
               alt={currentFeature.title}
               className="w-full h-56 object-cover rounded-2xl shadow-lg"
+              loading="lazy"
+              decoding="async"
             />
             <h3 className="mt-6 text-2xl font-bold text-[#FD8829] leading-snug">
               {currentFeature.title}
@@ -120,6 +122,8 @@ export function ComfortFeaturesSection({ onOpenModal }: ComfortFeaturesSectionPr
             src={comfortBackgroundImage}
             alt="WoafyPet Bed comfort background"
             className="w-full h-[260px] object-cover"
+            loading="lazy"
+            decoding="async"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/10 to-transparent" />
         </div>
@@ -149,6 +153,8 @@ export function ComfortFeaturesSection({ onOpenModal }: ComfortFeaturesSectionPr
               src={currentFeature.image}
               alt={currentFeature.title}
               className="w-full h-44 object-cover rounded-2xl"
+              loading="lazy"
+              decoding="async"
             />
             <h3 className="mt-5 text-xl font-bold text-[#FD8829] leading-snug">
               {currentFeature.title}

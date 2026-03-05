@@ -39,6 +39,10 @@ jobs:
 
       - name: Build
         # VITE_BASE_PATH not set → vite.config.ts falls back to '/WoafyPet_LandingPage/'
+        # VITE_BREVO_API_KEY — set this in GitHub → Settings → Secrets → Actions
+        env:
+          VITE_BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
+          VITE_BREVO_LIST_ID: ${{ secrets.BREVO_LIST_ID }}
         run: npm run build
 
       - name: Upload Pages artifact
