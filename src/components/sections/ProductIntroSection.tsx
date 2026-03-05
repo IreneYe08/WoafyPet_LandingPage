@@ -70,13 +70,25 @@ export function ProductIntroSection() {
           {/* Pull media upward so it overlaps orange + white */}
           <div className="relative -mt-6 md:-mt-10 rounded-[28px] shadow-2xl overflow-hidden bg-white">
             {/* ✅ GIF must be in /public/gifs/productShowcase.gif */}
-            <img
-              src="/gifs/productShowcase.gif"
-              alt="WoafyPet Bed"
+            <video
               className="w-full h-[320px] sm:h-[420px] md:h-[520px] object-cover"
-              loading="eager"
-              decoding="async"
-            />
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="none"
+              aria-label="WoafyPet Bed"
+            >
+              <source src="/videos/productShowcase.webm" type="video/webm" />
+              <source src="/videos/productShowcase.mp4" type="video/mp4" />
+              {/* Fallback for browsers that don't support video */}
+              <img
+                src="/gifs/productShowcase.gif"
+                alt="WoafyPet Bed"
+                className="w-full h-full object-cover"
+                loading="lazy"
+              />
+            </video>
           </div>
         </div>
       </div>
