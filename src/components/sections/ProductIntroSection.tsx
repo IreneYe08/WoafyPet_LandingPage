@@ -79,11 +79,11 @@ export function ProductIntroSection() {
               preload="none"
               aria-label="WoafyPet Bed"
             >
-              <source src="/videos/productShowcase.webm" type="video/webm" />
-              <source src="/videos/productShowcase.mp4" type="video/mp4" />
+              <source src={`${import.meta.env.BASE_URL}videos/productShowcase.webm`} type="video/webm" />
+              <source src={`${import.meta.env.BASE_URL}videos/productShowcase.mp4`} type="video/mp4" />
               {/* Fallback for browsers that don't support video */}
               <img
-                src="/gifs/productShowcase.gif"
+                src={`${import.meta.env.BASE_URL}gifs/productShowcase.gif`}
                 alt="WoafyPet Bed"
                 className="w-full h-full object-cover"
                 loading="lazy"
