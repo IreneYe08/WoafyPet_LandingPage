@@ -72,10 +72,10 @@ export function HeroSection({
             loop
             playsInline
             preload="metadata"
-            poster="/images/hero-poster.jpg"
+            poster={`${import.meta.env.BASE_URL}images/hero-poster.jpg`}
           >
-            <source src="/videos/heroV3.webm" type="video/webm" />
-            <source src="/videos/heroV3.mp4" type="video/mp4" />
+            <source src={`${import.meta.env.BASE_URL}videos/heroV3.webm`} type="video/webm" />
+            <source src={`${import.meta.env.BASE_URL}videos/heroV3.mp4`} type="video/mp4" />
           </video>
 
           {/* ✅ 25% dark overlay */}
