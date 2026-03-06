@@ -301,17 +301,21 @@ export function WaitlistModal({
     const currentEmail = formData.email;
 
     try {
-      const response = await fetch(WAITLIST_API_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          step: 2,
-          email: currentEmail,
-          pets: petInfoString,
-        }),
-      });
+      if (BREVO_API_KEY) {
+        const response = await fetch(`${BREVO_API_URL}/${encodeURIComponent(currentEmail)}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'api-key': BREVO_API_KEY,
+          },
+          body: JSON.stringify({
+            attributes: { PET_INFO: petInfoString },
+          }),
+        });
 
-      if (!response.ok) console.warn('Step 2 save warning');
+        if (!response.ok) console.warn('Step 2 save warning');
+      }
       setModalStep('upsell');
     } catch (error) {
       console.error('Pet info error:', error);
