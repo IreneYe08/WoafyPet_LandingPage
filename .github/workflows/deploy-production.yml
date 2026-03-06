@@ -47,6 +47,8 @@ jobs:
       - name: Build
         env:
           VITE_BASE_PATH: /           # root domain — no sub-path needed on Hostinger
+          VITE_BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
+          VITE_BREVO_LIST_ID: ${{ secrets.BREVO_LIST_ID }}
         run: npm run build
 
       - name: Upload dist as artifact

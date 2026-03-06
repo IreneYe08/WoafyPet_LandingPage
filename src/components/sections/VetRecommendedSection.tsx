@@ -32,6 +32,8 @@ export function VetRecommendedSection() {
               src={vetExaminingDogImage}
               alt="Veterinarian Examining Dog"
               className="w-full h-[320px] sm:h-[420px] object-cover"
+              loading="lazy"
+              decoding="async"
             />
           </Card>
         }
