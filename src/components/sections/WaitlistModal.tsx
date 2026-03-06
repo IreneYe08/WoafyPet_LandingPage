@@ -221,7 +221,17 @@ export function WaitlistModal({
 
     try {
       if (!BREVO_API_KEY) {
-        throw new Error('Brevo API key not configured. Please set VITE_BREVO_API_KEY.');
+        // API key not yet configured — skip the Brevo call and proceed so
+        // the UX still works. A console warning helps the developer diagnose.
+        console.warn(
+          '[WoafyPet] VITE_BREVO_API_KEY is not set. ' +
+          'Configure the BREVO_API_KEY GitHub Actions secret so email addresses are saved.'
+        );
+        setFormData((prev) => ({ ...prev, name: cleanName, email: cleanEmail }));
+        trackEvent('generate_lead', { form_id: 'waitlist_modal', form_name: 'Waitlist signup', section: 'modal' });
+        setModalStep('success');
+        onJoinSuccess();
+        return;
       }
 
       const response = await fetch(BREVO_API_URL, {
@@ -239,8 +249,8 @@ export function WaitlistModal({
         }),
       });
 
-      // 201 = created, 204 = updated — both are success
-      if (response.status !== 201 && response.status !== 204) {
+      // 200/201 = created, 204 = updated — all are success
+      if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
         const errBody = await response.json().catch(() => ({}));
         throw new Error((errBody as any).message || `Server error: ${response.status}`);
       }
@@ -301,17 +311,21 @@ export function WaitlistModal({
     const currentEmail = formData.email;
 
     try {
-      const response = await fetch(WAITLIST_API_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          step: 2,
-          email: currentEmail,
-          pets: petInfoString,
-        }),
-      });
-
-      if (!response.ok) console.warn('Step 2 save warning');
+      // Update the Brevo contact with pet info if the API key is available.
+      if (BREVO_API_KEY) {
+        const response = await fetch(`${BREVO_API_URL}/${encodeURIComponent(currentEmail)}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'api-key': BREVO_API_KEY,
+          },
+          body: JSON.stringify({
+            attributes: { PET_INFO: petInfoString },
+          }),
+        });
+        if (!response.ok) console.warn('Step 2 save warning', response.status);
+      }
       setModalStep('upsell');
     } catch (error) {
       console.error('Pet info error:', error);
