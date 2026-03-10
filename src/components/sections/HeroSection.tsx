@@ -2,6 +2,7 @@ import { logoImage } from '@/constants/images';
 import { PrimaryButton } from '@/components/common';
 import { ShoppingCart } from 'lucide-react';
 import { MiniCountdown } from '@/app/components/MiniCountdown';
+import { Link } from 'react-router-dom';
 
 interface HeroSectionProps {
   isScrolled: boolean;
@@ -29,8 +30,28 @@ export function HeroSection({
       >
         <div className="mx-auto max-w-[1280px] px-5 sm:px-8 lg:px-12 xl:px-16">
           <div className={`flex items-center justify-between ${isScrolled ? 'py-3' : 'py-4'}`}>
-            <img src={logoImage} alt="WoafyPet Logo" className="h-10 md:h-12 w-auto" />
+            
+            {/* Logo */}
+            <Link to="/">
+              <img src={logoImage} alt="WoafyPet Logo" className="h-10 md:h-12 w-auto" />
+            </Link>
 
+            {/* Center Navigation */}
+            <div className="hidden md:flex items-center gap-8">
+              <Link
+                to="/blog"
+                className={[
+                  'text-sm font-semibold transition',
+                  isScrolled
+                    ? 'text-gray-700 hover:text-[#FD8829]'
+                    : 'text-white/90 hover:text-white',
+                ].join(' ')}
+              >
+                Care Guides
+              </Link>
+            </div>
+
+            {/* Right Controls */}
             <div className="flex items-center gap-3 sm:gap-4">
               <button
                 onClick={onOpenCart}
@@ -62,9 +83,9 @@ export function HeroSection({
 
       {/* --- Hero --- */}
       <section className="relative w-full overflow-hidden">
-        {/* ✅ full-bleed hero height */}
         <div className="relative h-[86vh] min-h-[620px] w-full">
-          {/* ✅ Video goes to the very top (no padding above it) */}
+          
+          {/* Video */}
           <video
             className="absolute inset-0 h-full w-full object-cover"
             autoPlay
@@ -78,12 +99,13 @@ export function HeroSection({
             <source src={`${import.meta.env.BASE_URL}videos/heroV3.mp4`} type="video/mp4" />
           </video>
 
-          {/* ✅ 25% dark overlay */}
+          {/* Overlay */}
           <div className="absolute inset-0 bg-black/25" />
 
-          {/* ✅ Center content (push content down a bit to avoid nav overlap) */}
+          {/* Hero Content */}
           <div className="relative z-10 flex h-full w-full items-center justify-center">
             <div className="mx-auto max-w-[980px] px-5 sm:px-8 text-center pt-16 md:pt-20">
+              
               <div className="mb-5 flex justify-center">
                 <div className="inline-flex items-center rounded-full border border-white/25 bg-black/25 px-3 py-1.5 text-xs font-semibold text-white">
                   Patent Pending
@@ -93,7 +115,7 @@ export function HeroSection({
               <h1 className="text-white font-extrabold tracking-tight leading-[1.05] text-[2.2rem] sm:text-[2.6rem] md:text-6xl lg:text-7xl">
                 World&apos;s First AI–Powered
                 <br className="hidden sm:block" />
-                  Orthopedic Dog Bed
+                 Orthopedic Dog Bed
               </h1>
 
               <p className="mx-auto mt-5 max-w-2xl text-white/90 text-base md:text-lg leading-relaxed">
