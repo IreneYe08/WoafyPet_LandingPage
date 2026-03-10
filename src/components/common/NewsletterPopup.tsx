@@ -7,6 +7,9 @@ const POPUP_SUBMITTED_KEY = 'woafypet_popup_submitted';
 const CLOSE_SUPPRESS_DAYS = 7;
 const SUBMIT_SUPPRESS_DAYS = 30;
 
+const PRIVACY_URL = '/privacy';
+const TERMS_URL = '/terms';
+
 function getDaysInMs(days: number) {
   return days * 24 * 60 * 60 * 1000;
 }
@@ -48,6 +51,9 @@ export default function NewsletterPopup() {
   const [hasViewed, setHasViewed] = useState(false);
 
   const [email, setEmail] = useState('');
+  const [consent, setConsent] = useState(false);
+  const [legalConsent, setLegalConsent] = useState(false);
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -132,7 +138,7 @@ export default function NewsletterPopup() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const trimmedEmail = email.trim();
+    const trimmedEmail = email.trim().toLowerCase();
 
     if (!trimmedEmail) {
       setErrorMessage('Please enter your email.');
@@ -141,6 +147,18 @@ export default function NewsletterPopup() {
 
     if (!isValidEmail(trimmedEmail)) {
       setErrorMessage('Please enter a valid email address.');
+      return;
+    }
+
+    if (!consent) {
+      setErrorMessage('Please agree to receive product updates.');
+      return;
+    }
+
+    if (!legalConsent) {
+      setErrorMessage(
+        'You must agree to the Privacy Policy and Terms of Service.'
+      );
       return;
     }
 
@@ -158,9 +176,11 @@ export default function NewsletterPopup() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Accept: 'application/json',
         },
         body: JSON.stringify({
           email: trimmedEmail,
+          consent: true,
           source: 'popup',
           page: 'landing_page',
           timestamp: new Date().toISOString(),
@@ -175,9 +195,11 @@ export default function NewsletterPopup() {
 
       const data = await response.json().catch(() => null);
 
-      if (!response.ok) {
+      if (!response.ok || data?.status !== 'success') {
         throw new Error(
-          data?.message || 'Something went wrong. Please try again.'
+          data?.message_en ||
+            data?.message ||
+            'Something went wrong. Please try again.'
         );
       }
 
@@ -191,6 +213,8 @@ export default function NewsletterPopup() {
 
       setSubmitSuccess(true);
       setEmail('');
+      setConsent(false);
+      setLegalConsent(false);
     } catch (error) {
       const message =
         error instanceof Error
@@ -260,14 +284,68 @@ export default function NewsletterPopup() {
                 disabled={isSubmitting}
               />
 
+              <div className="mt-5 flex items-start gap-3">
+                <input
+                  type="checkbox"
+                  id="popup-consent-updates"
+                  checked={consent}
+                  onChange={(e) => setConsent(e.target.checked)}
+                  className="mt-1 h-4 w-4 rounded border-gray-300 text-[#FD8829] focus:ring-[#FD8829]"
+                  disabled={isSubmitting}
+                />
+                <label
+                  htmlFor="popup-consent-updates"
+                  className="cursor-pointer text-sm text-[#666666]"
+                >
+                  I agree to receive product updates.
+                </label>
+              </div>
+
+              <div className="mt-4 flex items-start gap-3">
+                <input
+                  type="checkbox"
+                  id="popup-consent-legal"
+                  checked={legalConsent}
+                  onChange={(e) => setLegalConsent(e.target.checked)}
+                  className="mt-1 h-4 w-4 rounded border-gray-300 text-[#FD8829] focus:ring-[#FD8829]"
+                  disabled={isSubmitting}
+                />
+                <label
+                  htmlFor="popup-consent-legal"
+                  className="cursor-pointer text-sm text-[#666666]"
+                >
+                  I agree to the{' '}
+                  <a
+                    href={PRIVACY_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-semibold text-[#FD8829] hover:underline"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    Privacy Policy
+                  </a>{' '}
+                  and{' '}
+                  <a
+                    href={TERMS_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-semibold text-[#FD8829] hover:underline"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    Terms of Service
+                  </a>
+                  .
+                </label>
+              </div>
+
               {errorMessage ? (
-                <p className="mt-3 text-sm text-[#C43D2F]">{errorMessage}</p>
+                <p className="mt-4 text-sm text-[#C43D2F]">{errorMessage}</p>
               ) : null}
 
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="mt-4 inline-flex w-full items-center justify-center rounded-2xl bg-[#FD8829] px-5 py-3.5 text-sm font-semibold text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+                className="mt-5 inline-flex w-full items-center justify-center rounded-2xl bg-[#FD8829] px-5 py-3.5 text-sm font-semibold text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {isSubmitting ? 'Submitting...' : 'Unlock 10% Off'}
               </button>
@@ -285,7 +363,7 @@ export default function NewsletterPopup() {
             </h2>
 
             <p className="mt-4 text-sm leading-7 text-[#5A5A5A] sm:text-base">
-              Your 10% off code is{' '}
+              Your 10% off code is:{' '}
               <span className="font-semibold text-[#2F2F2F]">WELCOME10</span>
             </p>
 
