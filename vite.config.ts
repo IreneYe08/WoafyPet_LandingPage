@@ -1,5 +1,5 @@
 import { defineConfig } from 'vite'
-import { fileURLToPath, URL } from 'node:url'
+import { fileURLToPath, URL } from 'url'
 import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
 
@@ -18,7 +18,6 @@ function figmaAssetPlugin() {
 }
 
 export default defineConfig({
-  // Staging (GitHub Pages) uses the repo sub-path; production uses root '/'
   base: process.env.VITE_BASE_PATH ?? '/WoafyPet_LandingPage/',
   plugins: [
     figmaAssetPlugin(),

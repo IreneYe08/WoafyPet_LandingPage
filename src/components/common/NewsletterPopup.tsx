@@ -1,10 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { trackEvent } from '@/lib/analytics';
 
-const POPUP_CLOSED_KEY = 'woafypet_popup_closed';
 const POPUP_SUBMITTED_KEY = 'woafypet_popup_submitted';
-
-const CLOSE_SUPPRESS_DAYS = 7;
 const SUBMIT_SUPPRESS_DAYS = 30;
 
 const PRIVACY_URL = '/privacy';
@@ -73,17 +70,12 @@ export default function NewsletterPopup() {
   }, []);
 
   useEffect(() => {
-    const shouldSuppressForClose = isWithinSuppressWindow(
-      POPUP_CLOSED_KEY,
-      CLOSE_SUPPRESS_DAYS
-    );
-
     const shouldSuppressForSubmit = isWithinSuppressWindow(
       POPUP_SUBMITTED_KEY,
       SUBMIT_SUPPRESS_DAYS
     );
 
-    if (shouldSuppressForClose || shouldSuppressForSubmit) return;
+    if (shouldSuppressForSubmit) return;
 
     const timer = window.setTimeout(() => {
       setIsVisible(true);
@@ -117,8 +109,6 @@ export default function NewsletterPopup() {
   }, [isVisible]);
 
   const handleClose = () => {
-    localStorage.setItem(POPUP_CLOSED_KEY, String(Date.now()));
-
     trackEvent('popup_close', {
       popup_name: 'newsletter_10_off',
       page: 'landing_page',

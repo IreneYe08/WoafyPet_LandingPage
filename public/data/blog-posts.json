@@ -254,89 +254,89 @@
         {
           "type": "paragraph",
           "text": "Also mention any broader health concerns your vet should know about. For example, heart disease can influence energy, breathing comfort, and sleep quality in some dogs—so it’s important not to assume everything is just joints."
+        }
+      ]
+    },
+    {
+      "id": "dog-refuses-new-bed-002",
+      "slug": "what-if-your-dog-refuses-to-use-a-new-bed",
+      "title": "What If Your Dog Refuses to Use a New Bed?",
+      "excerpt": "Some dogs hesitate when introduced to a new bed. Learn simple ways to help your dog feel comfortable and start using their new sleeping spot with confidence.",
+      "coverImage": "/images/blog/dog-refuses-new-bed.jpg",
+      "publishedAt": "2026-03-10",
+      "category": "Dog Behavior",
+      "readTime": "5 min read",
+      "featured": false,
+      "published": true,
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "Just brought home a new bed for your dog, but they seem completely uninterested in it? Don’t panic. This situation is actually very common. Dogs are creatures of habit, and adjusting to a new sleeping spot can sometimes take a little time."
         },
-    {
-        "id": "dog-refuses-new-bed-002",
-        "slug": "what-if-your-dog-refuses-to-use-a-new-bed",
-        "title": "What If Your Dog Refuses to Use a New Bed?",
-        "excerpt": "Some dogs hesitate when introduced to a new bed. Learn simple ways to help your dog feel comfortable and start using their new sleeping spot with confidence.",
-        "coverImage": "/images/blog/dog-refuses-new-bed.jpg",
-        "publishedAt": "2026-03-10",
-        "category": "Dog Behavior",
-        "readTime": "5 min read",
-        "featured": false,
-        "published": true,
-        "content": [
-    {
-      "type": "paragraph",
-      "text": "Just brought home a new bed for your dog, but they seem completely uninterested in it? Don’t panic. This situation is actually very common. Dogs are creatures of habit, and adjusting to a new sleeping spot can sometimes take a little time."
-    },
-    {
-      "type": "paragraph",
-      "text": "Every dog has their own personality and comfort preferences. Some will curl up in a new bed immediately, while others may need a few days to feel safe and familiar with it. The key is to guide them gently and make the space feel welcoming."
-    },
-    {
-      "type": "paragraph",
-      "text": "With a little patience and a few simple tricks, most dogs will eventually come to see their new bed as their favorite place to relax."
-    },
-    {
-      "type": "heading",
-      "text": "Give Your Dog Time"
-    },
-    {
-      "type": "paragraph",
-      "text": "Many dogs accept a new bed right away, but others may hesitate at first. This doesn’t mean they dislike it. They simply need time to explore and adjust. Let them approach it naturally instead of forcing them."
-    },
-    {
-      "type": "paragraph",
-      "text": "Below are several practical tips that experienced dog owners often use to help their dogs settle into a new bed:"
-    },
-    {
-      "type": "heading",
-      "text": "1. Add a Familiar Scent"
-    },
-    {
-      "type": "paragraph",
-      "text": "Dogs rely heavily on scent for comfort. Try placing one of your worn T-shirts or pieces of clothing inside the bed. Your scent can make the space feel safer and more familiar. You can also rub your hands on the bed fabric to transfer your smell."
-    },
-    {
-      "type": "heading",
-      "text": "2. Show Them It's Safe"
-    },
-    {
-      "type": "paragraph",
-      "text": "Dogs often learn by watching their owners. Sit or lie next to the bed and interact with it in a relaxed way. When your dog sees that the spot is safe and comfortable, they may be more curious about trying it themselves."
-    },
-    {
-      "type": "heading",
-      "text": "3. Use Something They Already Know"
-    },
-    {
-      "type": "paragraph",
-      "text": "If your dog previously had a bed with a removable cover or blanket, place that familiar fabric on the new bed. The familiar smell can make the transition feel much easier."
-    },
-    {
-      "type": "heading",
-      "text": "4. Choose the Right Spot"
-    },
-    {
-      "type": "paragraph",
-      "text": "Location matters more than many owners realize. Put the new bed in the place where your dog naturally likes to rest—near the couch, beside your desk, or wherever they usually nap. Dogs are more likely to try a bed if it’s already in their preferred area."
-    },
-    {
-      "type": "heading",
-      "text": "5. Reward Positive Behavior"
-    },
-    {
-      "type": "paragraph",
-      "text": "Encourage your dog with treats or praise when they step onto the bed. Positive reinforcement helps them associate the bed with something pleasant. Over time, they’ll begin choosing it on their own."
-    },
-    {
-      "type": "paragraph",
-      "text": "Bringing a new bed into your home should be a positive experience for both you and your dog. With patience, familiarity, and a bit of encouragement, your pup will soon see their bed as a cozy retreat where they can rest comfortably every day."
-    }
-  ]
-    }    
+        {
+          "type": "paragraph",
+          "text": "Every dog has their own personality and comfort preferences. Some will curl up in a new bed immediately, while others may need a few days to feel safe and familiar with it. The key is to guide them gently and make the space feel welcoming."
+        },
+        {
+          "type": "paragraph",
+          "text": "With a little patience and a few simple tricks, most dogs will eventually come to see their new bed as their favorite place to relax."
+        },
+        {
+          "type": "heading",
+          "text": "Give Your Dog Time"
+        },
+        {
+          "type": "paragraph",
+          "text": "Many dogs accept a new bed right away, but others may hesitate at first. This doesn’t mean they dislike it. They simply need time to explore and adjust. Let them approach it naturally instead of forcing them."
+        },
+        {
+          "type": "paragraph",
+          "text": "Below are several practical tips that experienced dog owners often use to help their dogs settle into a new bed:"
+        },
+        {
+          "type": "heading",
+          "text": "1. Add a Familiar Scent"
+        },
+        {
+          "type": "paragraph",
+          "text": "Dogs rely heavily on scent for comfort. Try placing one of your worn T-shirts or pieces of clothing inside the bed. Your scent can make the space feel safer and more familiar. You can also rub your hands on the bed fabric to transfer your smell."
+        },
+        {
+          "type": "heading",
+          "text": "2. Show Them It's Safe"
+        },
+        {
+          "type": "paragraph",
+          "text": "Dogs often learn by watching their owners. Sit or lie next to the bed and interact with it in a relaxed way. When your dog sees that the spot is safe and comfortable, they may be more curious about trying it themselves."
+        },
+        {
+          "type": "heading",
+          "text": "3. Use Something They Already Know"
+        },
+        {
+          "type": "paragraph",
+          "text": "If your dog previously had a bed with a removable cover or blanket, place that familiar fabric on the new bed. The familiar smell can make the transition feel much easier."
+        },
+        {
+          "type": "heading",
+          "text": "4. Choose the Right Spot"
+        },
+        {
+          "type": "paragraph",
+          "text": "Location matters more than many owners realize. Put the new bed in the place where your dog naturally likes to rest—near the couch, beside your desk, or wherever they usually nap. Dogs are more likely to try a bed if it’s already in their preferred area."
+        },
+        {
+          "type": "heading",
+          "text": "5. Reward Positive Behavior"
+        },
+        {
+          "type": "paragraph",
+          "text": "Encourage your dog with treats or praise when they step onto the bed. Positive reinforcement helps them associate the bed with something pleasant. Over time, they’ll begin choosing it on their own."
+        },
+        {
+          "type": "paragraph",
+          "text": "Bringing a new bed into your home should be a positive experience for both you and your dog. With patience, familiarity, and a bit of encouragement, your pup will soon see their bed as a cozy retreat where they can rest comfortably every day."
+        }
       ]
     }
   ]
