@@ -44,7 +44,8 @@ export function WaitlistModal({
   const [errorMsg, setErrorMsg] = useState('');
 
   const [formData, setFormData] = useState({
-    name: '',
+    firstName: '',
+    lastName: '',
     email: '',
     consent: false,
     legalConsent: false,
@@ -112,7 +113,8 @@ export function WaitlistModal({
   const resetModal = () => {
     setModalStep('form');
     setFormData({
-      name: '',
+      firstName: '',
+      lastName: '',
       email: '',
       consent: false,
       legalConsent: false,
@@ -150,11 +152,17 @@ export function WaitlistModal({
     e.preventDefault();
     setErrorMsg('');
 
-    const cleanName = formData.name.trim();
+    const cleanFirstName = formData.firstName.trim();
+    const cleanLastName = formData.lastName.trim();
     const cleanEmail = formData.email.trim().toLowerCase();
 
-    if (!cleanName) {
-      setErrorMsg('Please enter your name.');
+    if (!cleanFirstName) {
+      setErrorMsg('Please enter your first name.');
+      return;
+    }
+
+    if (!cleanLastName) {
+      setErrorMsg('Please enter your last name.');
       return;
     }
 
@@ -191,7 +199,8 @@ export function WaitlistModal({
           source: 'waitlist_modal',
           page: 'landing_page',
           timestamp: new Date().toISOString(),
-          name: cleanName,
+          firstName: cleanFirstName,
+          lastName: cleanLastName,
           email: cleanEmail,
           consent: true,
           utm_source: utm.utm_source,
@@ -215,7 +224,8 @@ export function WaitlistModal({
 
       setFormData((prev) => ({
         ...prev,
-        name: cleanName,
+        firstName: cleanFirstName,
+        lastName: cleanLastName,
         email: cleanEmail,
         consent: true,
         legalConsent: true,
@@ -349,13 +359,13 @@ export function WaitlistModal({
                   </div>
                 )}
 
-                <div>
+                <div className="flex gap-3">
                   <input
                     type="text"
-                    placeholder="Your Name"
-                    value={formData.name}
+                    placeholder="First Name"
+                    value={formData.firstName}
                     onChange={(e) => {
-                      setFormData({ ...formData, name: e.target.value });
+                      setFormData({ ...formData, firstName: e.target.value });
 
                       if (!formStartedTrackedRef.current) {
                         formStartedTrackedRef.current = true;
@@ -375,6 +385,16 @@ export function WaitlistModal({
                           section: 'modal',
                         });
                       }
+                    }}
+                    className="w-full rounded-xl border border-gray-300 px-4 py-3 text-[#3D3D3D] focus:border-transparent focus:outline-none focus:ring-2 focus:ring-[#FD8829]"
+                    disabled={isLoading}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Last Name"
+                    value={formData.lastName}
+                    onChange={(e) => {
+                      setFormData({ ...formData, lastName: e.target.value });
                     }}
                     className="w-full rounded-xl border border-gray-300 px-4 py-3 text-[#3D3D3D] focus:border-transparent focus:outline-none focus:ring-2 focus:ring-[#FD8829]"
                     disabled={isLoading}
