@@ -557,7 +557,7 @@ app.use((req, res, next) => {
 // ─── Waitlist API ─────────────────────────────────────────────────────────────
 
 const WAITLIST_HEADERS = [
-  'email', 'name', 'consent', 'pets', 'source', 'page', 'client_timestamp',
+  'email', 'first_name', 'last_name', 'consent', 'pets', 'source', 'page', 'client_timestamp',
   'utm_source', 'utm_campaign', 'utm_medium', 'utm_content', 'utm_term',
   'referrer', 'ip', 'created_at', 'updated_at',
 ];
@@ -587,7 +587,13 @@ app.post('/api/waitlist', async (req, res) => {
   }
 
   const email = clampLen(cleanStr(data.email ?? '').toLowerCase(), 200);
-  const name = clampLen(cleanStr(data.name ?? ''), 120);
+  let firstName = clampLen(cleanStr(data.firstName ?? ''), 60);
+  let lastName = clampLen(cleanStr(data.lastName ?? ''), 60);
+  // Backward compat: if old 'name' field sent, treat as firstName
+  if (!firstName && !lastName) {
+    const legacyName = clampLen(cleanStr(data.name ?? ''), 120);
+    if (legacyName) firstName = legacyName;
+  }
   const pets = clampLen(cleanStr(data.pets ?? ''), 800);
   const consentBool = Boolean(data.consent);
   const page = clampLen(cleanStr(data.page ?? ''), 120);
@@ -610,7 +616,7 @@ app.post('/api/waitlist', async (req, res) => {
 
   // Step 1 validation
   if (!isPopup && step === '1') {
-    if (!name) {
+    if (!firstName || !lastName) {
       return res.status(400).json({ status: 'error', message: '请填写姓名', message_en: 'Name missing' });
     }
     if (!consentBool) {
@@ -630,7 +636,8 @@ app.post('/api/waitlist', async (req, res) => {
       if (idx === -1) {
         rows.push({
           email,
-          name: (!isPopup && step === '1') ? name : '',
+          first_name: (!isPopup && step === '1') ? firstName : (isPopup ? firstName : ''),
+          last_name: (!isPopup && step === '1') ? lastName : (isPopup ? lastName : ''),
           consent: isPopup ? 'Newsletter' : (step === '1' && consentBool ? 'Yes' : 'No'),
           pets: (!isPopup && step === '2' && pets) ? pets : '',
           source, page, client_timestamp: clientTimestamp,
@@ -642,8 +649,12 @@ app.post('/api/waitlist', async (req, res) => {
         const existing = rows[idx];
         if (isPopup) {
           if (!existing.consent) existing.consent = 'Newsletter';
+          // For popup, only set names if not already present
+          if (firstName && !existing.first_name) existing.first_name = firstName;
+          if (lastName && !existing.last_name) existing.last_name = lastName;
         } else if (step === '1') {
-          existing.name = name;
+          existing.first_name = firstName;
+          existing.last_name = lastName;
           existing.consent = consentBool ? 'Yes' : 'No';
         } else if (step === '2' && pets) {
           existing.pets = pets;
@@ -677,7 +688,8 @@ app.post('/api/waitlist', async (req, res) => {
   const shouldSyncBrevo = isPopup || (!isPopup && step === '1');
   if (shouldSyncBrevo) {
     const attrs = {};
-    if (name) attrs.FIRSTNAME = name;
+    if (firstName) attrs.FIRSTNAME = firstName;
+    if (lastName) attrs.LASTNAME = lastName;
     if (source) attrs.SOURCE = source;
     if (page) attrs.PAGE = page;
     if (utmSource) attrs.UTM_SOURCE = utmSource;
@@ -685,7 +697,8 @@ app.post('/api/waitlist', async (req, res) => {
     if (utmCampaign) attrs.UTM_CAMPAIGN = utmCampaign;
 
     brevoSyncContact(email, attrs).catch(e => console.error('brevo_sync_error:', e.message));
-    larkNotifyWaitlist(email, name).catch(e => console.error('lark_waitlist_error:', e.message));
+    const fullName = [firstName, lastName].filter(Boolean).join(' ');
+    larkNotifyWaitlist(email, fullName).catch(e => console.error('lark_waitlist_error:', e.message));
   }
 
   res.json({
