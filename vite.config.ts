@@ -29,4 +29,10 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
+  server: {
+    // Proxy /api to the local Express server so the form works during `npm run dev`
+    proxy: {
+      '/api': 'http://localhost:3000',
+    },
+  },
 })

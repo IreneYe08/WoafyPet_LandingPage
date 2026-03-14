@@ -51,8 +51,15 @@ jobs:
       - name: Build
         env:
           VITE_BASE_PATH: /           # root domain — no sub-path needed on Hostinger
-          VITE_GA_MEASUREMENT_ID: ${{ secrets.GA_ID }}
-        run: npm run build
+          # GA4 ID: .env.production already contains G-7ELJLH4DG3.
+          # Override here ONLY if the GA_MEASUREMENT_ID secret is set; an empty
+          # value would stomp the .env.production fallback and break GA4.
+          GA_MEASUREMENT_ID_SECRET: ${{ secrets.GA_MEASUREMENT_ID }}
+        run: |
+          if [ -n "$GA_MEASUREMENT_ID_SECRET" ]; then
+            export VITE_GA_MEASUREMENT_ID="$GA_MEASUREMENT_ID_SECRET"
+          fi
+          npm run build
 
       - name: Assemble server package
         run: |
