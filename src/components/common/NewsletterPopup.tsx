@@ -162,7 +162,7 @@ export default function NewsletterPopup() {
     });
 
     try {
-      const response = await fetch('/api/waitlist.php', {
+      const response = await fetch('/api/waitlist', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

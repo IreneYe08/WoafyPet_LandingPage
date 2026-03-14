@@ -4,7 +4,7 @@
  * Changes in this version:
  * 1) Removed 50% OFF upsell flow
  * 2) Removed Stripe redirect / countdown / offer expiration logic
- * 3) Uses backend /api/waitlist.php instead of direct Brevo browser call
+ * 3) Uses backend /api/waitlist instead of direct Brevo browser call
  * 4) Keeps required product updates consent + privacy/terms consent
  * 5) Keeps optional Step 2 pet info collection
  */
@@ -14,7 +14,7 @@ import { X, CheckCircle, AlertCircle } from 'lucide-react';
 import { PrimaryButton } from '@/components/common';
 import { trackEvent } from '@/lib/analytics';
 
-const WAITLIST_API_URL = '/api/waitlist.php';
+const WAITLIST_API_URL = '/api/waitlist';
 const PRIVACY_URL = '/privacy';
 const TERMS_URL = '/terms';
 

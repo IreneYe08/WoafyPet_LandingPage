@@ -1,19 +1,23 @@
 # ──────────────────────────────────────────────────────────────────────────────
-# PRODUCTION — deploys production branch → Hostinger via FTP
+# PRODUCTION — deploys production branch → Hostinger via FTP (Node.js hosting)
 # Domain: woafy.pet
 #
 # Required GitHub Secrets (Settings → Secrets → Actions):
-#   FTP_SERVER    — your Hostinger FTP hostname, e.g. ftp.woafy.pet
-#   FTP_USERNAME  — FTP account username
-#   FTP_PASSWORD  — FTP account password
+#   FTP_SERVER       — your Hostinger FTP hostname, e.g. ftp.woafy.pet
+#   FTP_USERNAME     — FTP account username
+#   FTP_PASSWORD     — FTP account password
+#   GA_ID          — GA4 Measurement ID, e.g. G-XXXXXXXXXX
+#   FTP_SERVER_DIR — remote directory, e.g. /domains/woafy.pet/public_html/
 #
-# Required GitHub Variable (Settings → Variables → Actions):
-#   FTP_SERVER_DIR — remote directory, typically /public_html/ or /domains/woafy.pet/public_html/
+# After first deploy, run in Hostinger hPanel → Node.js:
+#   npm install --production   (installs express)
+#   Set entry point: server.js
+#   Set startup command: node server.js
 # ──────────────────────────────────────────────────────────────────────────────
 name: Deploy Production (Hostinger FTP)
 
 on:
-  workflow_dispatch:          # ONLY manual trigger — review on GitHub Pages first, then run this
+  workflow_dispatch:          # manual trigger only — Hostinger GitHub integration handles auto-deploy
     inputs:
       branch:
         description: 'Branch to deploy (leave blank for main)'
@@ -47,15 +51,20 @@ jobs:
       - name: Build
         env:
           VITE_BASE_PATH: /           # root domain — no sub-path needed on Hostinger
-          VITE_BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
-          VITE_BREVO_LIST_ID: ${{ secrets.BREVO_LIST_ID }}
+          VITE_GA_MEASUREMENT_ID: ${{ secrets.GA_ID }}
         run: npm run build
 
-      - name: Upload dist as artifact
+      - name: Assemble server package
+        run: |
+          mkdir -p deploy
+          cp server.js package.json package-lock.json deploy/
+          cp -r dist deploy/dist
+
+      - name: Upload deploy package as artifact
         uses: actions/upload-artifact@v4
         with:
-          name: production-dist
-          path: ./dist
+          name: production-deploy
+          path: ./deploy
           retention-days: 7         # keep build artifact for 7 days (useful for rollback)
 
   deploy:
@@ -66,11 +75,11 @@ jobs:
       name: production              # ties to the "production" GitHub Environment
       url: https://woafy.pet
     steps:
-      - name: Download dist artifact
+      - name: Download deploy artifact
         uses: actions/download-artifact@v4
         with:
-          name: production-dist
-          path: ./dist
+          name: production-deploy
+          path: ./deploy
 
       - name: Deploy via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
@@ -78,12 +87,12 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./dist/
-          server-dir: ${{ vars.FTP_SERVER_DIR }}
+          local-dir: ./deploy/
+          server-dir: ${{ secrets.FTP_SERVER_DIR }}
           # Only upload changed files (compares local vs remote state file)
           state-name: .ftp-deploy-sync-state.json
-          # Exclude the state file itself and any dot-files you don't want overwritten
           exclude: |
             **/.git*
             **/.git*/**
             **/node_modules/**
+            **/.env*
