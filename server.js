@@ -554,6 +554,12 @@ app.use((req, res, next) => {
   next();
 });
 
+// ─── Health Check ────────────────────────────────────────────────────────────
+
+app.get('/api/health', (_req, res) => {
+  res.json({ status: 'ok', ts: new Date().toISOString() });
+});
+
 // ─── Waitlist API ─────────────────────────────────────────────────────────────
 
 const WAITLIST_HEADERS = [
