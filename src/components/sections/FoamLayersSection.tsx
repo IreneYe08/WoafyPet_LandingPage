@@ -33,7 +33,7 @@ export function FoamLayersSection() {
         <TwoCol
           className="min-h-[520px]"
           left={
-            <div className="relative h-[260px] sm:h-[360px] lg:h-full">
+            <div className="relative h-[260px] sm:h-[360px] lg:h-full lg:min-h-[520px]">
               <img
                 src={foamLayersImage}
                 alt="High Quality Foam Layers"

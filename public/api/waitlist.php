@@ -243,8 +243,19 @@ if (!$isPopup && $step !== '1' && $step !== '2') {
 $email = strtolower(clean_str($data['email'] ?? ''));
 $email = clamp_len($email, 200);
 
-$name = clean_str($data['name'] ?? '');
-$name = clamp_len($name, 120);
+$firstName = clean_str($data['firstName'] ?? '');
+$firstName = clamp_len($firstName, 60);
+
+$lastName = clean_str($data['lastName'] ?? '');
+$lastName = clamp_len($lastName, 60);
+
+// Backward compat: if old 'name' field sent, treat as firstName
+if ($firstName === '' && $lastName === '') {
+  $legacyName = clean_str($data['name'] ?? '');
+  if ($legacyName !== '') {
+    $firstName = clamp_len($legacyName, 60);
+  }
+}
 
 $pets = clean_str($data['pets'] ?? '');
 $pets = clamp_len($pets, 800);
@@ -285,12 +296,22 @@ if ($isPopup) {
 } else {
   // Step 1 standard waitlist validation
   if ($step === '1') {
-    if ($name === '') {
+    if ($firstName === '') {
       http_response_code(400);
       echo json_encode([
         "status" => "error",
-        "message" => "请填写姓名",
-        "message_en" => "Name missing",
+        "message" => "请填写名字",
+        "message_en" => "First name missing",
+      ], JSON_UNESCAPED_UNICODE);
+      exit;
+    }
+
+    if ($lastName === '') {
+      http_response_code(400);
+      echo json_encode([
+        "status" => "error",
+        "message" => "请填写姓氏",
+        "message_en" => "Last name missing",
       ], JSON_UNESCAPED_UNICODE);
       exit;
     }
@@ -312,7 +333,8 @@ $csvFile = data_dir() . "/waitlist.csv";
 
 $headers = [
   "email",
-  "name",
+  "first_name",
+  "last_name",
   "consent",
   "pets",
   "source",
@@ -372,21 +394,22 @@ while (($row = fgetcsv($fp)) !== false) {
 
   $rows[] = [
     "email" => $row[0] ?? "",
-    "name" => $row[1] ?? "",
-    "consent" => $row[2] ?? "",
-    "pets" => $row[3] ?? "",
-    "source" => $row[4] ?? "",
-    "page" => $row[5] ?? "",
-    "client_timestamp" => $row[6] ?? "",
-    "utm_source" => $row[7] ?? "",
-    "utm_campaign" => $row[8] ?? "",
-    "utm_medium" => $row[9] ?? "",
-    "utm_content" => $row[10] ?? "",
-    "utm_term" => $row[11] ?? "",
-    "referrer" => $row[12] ?? "",
-    "ip" => $row[13] ?? "",
-    "created_at" => $row[14] ?? "",
-    "updated_at" => $row[15] ?? "",
+    "first_name" => $row[1] ?? "",
+    "last_name" => $row[2] ?? "",
+    "consent" => $row[3] ?? "",
+    "pets" => $row[4] ?? "",
+    "source" => $row[5] ?? "",
+    "page" => $row[6] ?? "",
+    "client_timestamp" => $row[7] ?? "",
+    "utm_source" => $row[8] ?? "",
+    "utm_campaign" => $row[9] ?? "",
+    "utm_medium" => $row[10] ?? "",
+    "utm_content" => $row[11] ?? "",
+    "utm_term" => $row[12] ?? "",
+    "referrer" => $row[13] ?? "",
+    "ip" => $row[14] ?? "",
+    "created_at" => $row[15] ?? "",
+    "updated_at" => $row[16] ?? "",
   ];
 }
 
@@ -434,7 +457,8 @@ if ($foundIndex === -1) {
 
   $rows[] = [
     "email" => $email,
-    "name" => (!$isPopup && $step === '1') ? $name : "",
+    "first_name" => (!$isPopup && $step === '1') ? $firstName : "",
+    "last_name" => (!$isPopup && $step === '1') ? $lastName : "",
     "consent" => (!$isPopup && $step === '1' && $consentBool) ? "Yes" : ($isPopup ? "Newsletter" : "No"),
     "pets" => (!$isPopup && $step === '2' && $pets !== "") ? $pets : "",
     "source" => $source,
@@ -460,7 +484,8 @@ if ($foundIndex === -1) {
     }
   } else {
     if ($step === '1') {
-      $existing["name"] = $name;
+      $existing["first_name"] = $firstName;
+      $existing["last_name"] = $lastName;
       $existing["consent"] = $consentBool ? "Yes" : "No";
     } else {
       if ($pets !== "") $existing["pets"] = $pets;
@@ -495,7 +520,8 @@ fputcsv($fp, $headers);
 foreach ($rows as $r) {
   fputcsv($fp, [
     $r["email"],
-    $r["name"],
+    $r["first_name"],
+    $r["last_name"],
     $r["consent"],
     $r["pets"],
     $r["source"],
@@ -526,7 +552,7 @@ $shouldNotifyLark = (!$isPopup && $step === '1') || $isPopup;
 if ($shouldNotifyLark) {
   try {
     require_once __DIR__ . '/_lark.php';
-    lark_notify_waitlist($email, $name);
+    lark_notify_waitlist($email, trim($firstName . ' ' . $lastName));
   } catch (Throwable $e) {
     error_log("lark_waitlist_error: " . $e->getMessage());
   }
@@ -546,8 +572,12 @@ if ($shouldSyncBrevo) {
     try {
       $attributes = [];
 
-      if ($name !== "") {
-        $attributes["FIRSTNAME"] = $name;
+      if ($firstName !== "") {
+        $attributes["FIRSTNAME"] = $firstName;
+      }
+
+      if ($lastName !== "") {
+        $attributes["LASTNAME"] = $lastName;
       }
 
       if ($source !== "") {
