@@ -81,3 +81,6 @@ export { default as testimonialChloeImage } from '@/assets/external/testimonial-
 
 /** 快乐老年狗狗图 - 30天保证区块 */
 export { default as happySeniorDogImage } from '@/assets/external/happy-senior-dog.jpg';
+
+/** Blog 页面顶部背景图 */
+export { default as blogHeroImage } from '../assets/blog-hero.jpg';

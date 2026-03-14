@@ -40,8 +40,6 @@ import {
   WaitlistModal,
 } from '@/components/sections';
 
-import UpdatesPreviewSection from '@/components/sections/UpdatesPreviewSection';
-
 // 页面级组件
 import { CartPage } from '@/app/components/CartPage';
 import BlogPage from '@/pages/BlogPage';
@@ -153,7 +151,6 @@ function LandingPage() {
       <MediaLogosSection />
       <TestimonialsSection />
       <FounderStorySection />
-      <UpdatesPreviewSection />
       <SpecificationsSection />
       <GuaranteeSection onOpenModal={openModal} />
 
