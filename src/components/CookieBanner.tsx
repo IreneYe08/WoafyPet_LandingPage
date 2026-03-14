@@ -15,16 +15,19 @@ export function CookieBanner() {
   const gpc = useMemo(() => isGpcEnabled(), []);
 
   useEffect(() => {
+    const stored = hasStoredConsent();
+    const consent = loadConsent();
+    console.log('[CookieBanner] gpc:', gpc, 'hasStoredConsent:', stored, 'consent:', consent);
+
     // GPC：强制 ads denied（loadConsent 会写入），可以选择仍提示但不做二次确认
     if (gpc) {
-      loadConsent(); // 触发 gpc persist
-      // 方案A：仍显示提示 banner（但不需要“确认弹窗”）
+      // 方案A：仍显示提示 banner（但不需要”确认弹窗”）
       setOpen(true);
       return;
     }
 
     // 非首次：不显示
-    if (hasStoredConsent()) {
+    if (stored) {
       setOpen(false);
       return;
     }
