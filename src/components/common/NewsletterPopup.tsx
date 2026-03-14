@@ -47,6 +47,8 @@ export default function NewsletterPopup() {
   const [isVisible, setIsVisible] = useState(false);
   const [hasViewed, setHasViewed] = useState(false);
 
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [consent, setConsent] = useState(false);
   const [legalConsent, setLegalConsent] = useState(false);
@@ -169,6 +171,8 @@ export default function NewsletterPopup() {
           Accept: 'application/json',
         },
         body: JSON.stringify({
+          firstName: firstName.trim(),
+          lastName: lastName.trim(),
           email: trimmedEmail,
           consent: true,
           source: 'popup',
@@ -202,6 +206,8 @@ export default function NewsletterPopup() {
       });
 
       setSubmitSuccess(true);
+      setFirstName('');
+      setLastName('');
       setEmail('');
       setConsent(false);
       setLegalConsent(false);
@@ -258,6 +264,25 @@ export default function NewsletterPopup() {
             </p>
 
             <form onSubmit={handleSubmit} className="mt-6">
+              <div className="flex gap-3">
+                <input
+                  type="text"
+                  placeholder="First Name"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  className="w-full rounded-2xl border border-[#D8D8D8] bg-white px-4 py-3 text-base text-[#2F2F2F] outline-none transition placeholder:text-[#999999] focus:border-[#FD8829] focus:ring-2 focus:ring-[#FD8829]/15"
+                  disabled={isSubmitting}
+                />
+                <input
+                  type="text"
+                  placeholder="Last Name"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  className="w-full rounded-2xl border border-[#D8D8D8] bg-white px-4 py-3 text-base text-[#2F2F2F] outline-none transition placeholder:text-[#999999] focus:border-[#FD8829] focus:ring-2 focus:ring-[#FD8829]/15"
+                  disabled={isSubmitting}
+                />
+              </div>
+
               <label htmlFor="newsletter-email" className="sr-only">
                 Enter your email
               </label>
@@ -270,7 +295,7 @@ export default function NewsletterPopup() {
                 placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full rounded-2xl border border-[#D8D8D8] bg-white px-4 py-3 text-base text-[#2F2F2F] outline-none transition placeholder:text-[#999999] focus:border-[#FD8829] focus:ring-2 focus:ring-[#FD8829]/15"
+                className="mt-3 w-full rounded-2xl border border-[#D8D8D8] bg-white px-4 py-3 text-base text-[#2F2F2F] outline-none transition placeholder:text-[#999999] focus:border-[#FD8829] focus:ring-2 focus:ring-[#FD8829]/15"
                 disabled={isSubmitting}
               />
 
