@@ -17,9 +17,7 @@
 name: Deploy Production (Hostinger FTP)
 
 on:
-  push:
-    branches: [main]          # auto-deploy on merge to main
-  workflow_dispatch:          # keep manual trigger for hotfix deploys
+  workflow_dispatch:          # manual trigger only — Hostinger GitHub integration handles auto-deploy
     inputs:
       branch:
         description: 'Branch to deploy (leave blank for main)'
