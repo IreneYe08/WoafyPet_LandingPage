@@ -622,47 +622,56 @@ app.post('/api/waitlist', async (req, res) => {
   const now = nowIso();
   const clientIp = clampLen(cleanStr(ip), 80);
 
-  await withFileLock('waitlist.csv', async () => {
-    const rows = readCsv(waitlistFile, WAITLIST_HEADERS);
-    const idx = rows.findIndex(r => r.email === email);
+  try {
+    await withFileLock('waitlist.csv', async () => {
+      const rows = readCsv(waitlistFile, WAITLIST_HEADERS);
+      const idx = rows.findIndex(r => r.email === email);
 
-    if (idx === -1) {
-      rows.push({
-        email,
-        name: (!isPopup && step === '1') ? name : '',
-        consent: isPopup ? 'Newsletter' : (step === '1' && consentBool ? 'Yes' : 'No'),
-        pets: (!isPopup && step === '2' && pets) ? pets : '',
-        source, page, client_timestamp: clientTimestamp,
-        utm_source: utmSource, utm_campaign: utmCampaign, utm_medium: utmMedium,
-        utm_content: utmContent, utm_term: utmTerm, referrer,
-        ip: clientIp, created_at: now, updated_at: now,
-      });
-    } else {
-      const existing = rows[idx];
-      if (isPopup) {
-        if (!existing.consent) existing.consent = 'Newsletter';
-      } else if (step === '1') {
-        existing.name = name;
-        existing.consent = consentBool ? 'Yes' : 'No';
-      } else if (step === '2' && pets) {
-        existing.pets = pets;
+      if (idx === -1) {
+        rows.push({
+          email,
+          name: (!isPopup && step === '1') ? name : '',
+          consent: isPopup ? 'Newsletter' : (step === '1' && consentBool ? 'Yes' : 'No'),
+          pets: (!isPopup && step === '2' && pets) ? pets : '',
+          source, page, client_timestamp: clientTimestamp,
+          utm_source: utmSource, utm_campaign: utmCampaign, utm_medium: utmMedium,
+          utm_content: utmContent, utm_term: utmTerm, referrer,
+          ip: clientIp, created_at: now, updated_at: now,
+        });
+      } else {
+        const existing = rows[idx];
+        if (isPopup) {
+          if (!existing.consent) existing.consent = 'Newsletter';
+        } else if (step === '1') {
+          existing.name = name;
+          existing.consent = consentBool ? 'Yes' : 'No';
+        } else if (step === '2' && pets) {
+          existing.pets = pets;
+        }
+        if (source) existing.source = source;
+        if (page) existing.page = page;
+        if (utmSource) existing.utm_source = utmSource;
+        if (utmCampaign) existing.utm_campaign = utmCampaign;
+        if (utmMedium) existing.utm_medium = utmMedium;
+        if (utmContent) existing.utm_content = utmContent;
+        if (utmTerm) existing.utm_term = utmTerm;
+        if (referrer) existing.referrer = referrer;
+        if (clientIp) existing.ip = clientIp;
+        if (!existing.created_at) existing.created_at = now;
+        existing.updated_at = now;
+        rows[idx] = existing;
       }
-      if (source) existing.source = source;
-      if (page) existing.page = page;
-      if (utmSource) existing.utm_source = utmSource;
-      if (utmCampaign) existing.utm_campaign = utmCampaign;
-      if (utmMedium) existing.utm_medium = utmMedium;
-      if (utmContent) existing.utm_content = utmContent;
-      if (utmTerm) existing.utm_term = utmTerm;
-      if (referrer) existing.referrer = referrer;
-      if (clientIp) existing.ip = clientIp;
-      if (!existing.created_at) existing.created_at = now;
-      existing.updated_at = now;
-      rows[idx] = existing;
-    }
 
-    writeCsv(waitlistFile, WAITLIST_HEADERS, rows);
-  });
+      writeCsv(waitlistFile, WAITLIST_HEADERS, rows);
+    });
+  } catch (e) {
+    console.error('waitlist_save_error:', e.message);
+    return res.status(500).json({
+      status: 'error',
+      message: '保存失败，请稍后再试',
+      message_en: 'Failed to save. Please try again.',
+    });
+  }
 
   // Brevo sync + Lark notify (non-blocking)
   const shouldSyncBrevo = isPopup || (!isPopup && step === '1');
