@@ -6,9 +6,7 @@
 #   FTP_SERVER       — your Hostinger FTP hostname, e.g. ftp.woafy.pet
 #   FTP_USERNAME     — FTP account username
 #   FTP_PASSWORD     — FTP account password
-#   GA_MEASUREMENT_ID — GA4 Measurement ID, e.g. G-XXXXXXXXXX
-#
-# Required GitHub Variable (Settings → Variables → Actions):
+#   GA_ID          — GA4 Measurement ID, e.g. G-XXXXXXXXXX
 #   FTP_SERVER_DIR — remote directory, e.g. /domains/woafy.pet/public_html/
 #
 # After first deploy, run in Hostinger hPanel → Node.js:
@@ -53,7 +51,7 @@ jobs:
       - name: Build
         env:
           VITE_BASE_PATH: /           # root domain — no sub-path needed on Hostinger
-          VITE_GA_MEASUREMENT_ID: ${{ secrets.GA_MEASUREMENT_ID }}
+          VITE_GA_MEASUREMENT_ID: ${{ secrets.GA_ID }}
         run: npm run build
 
       - name: Assemble server package
@@ -90,7 +88,7 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./deploy/
-          server-dir: ${{ vars.FTP_SERVER_DIR }}
+          server-dir: ${{ secrets.FTP_SERVER_DIR }}
           # Only upload changed files (compares local vs remote state file)
           state-name: .ftp-deploy-sync-state.json
           exclude: |
