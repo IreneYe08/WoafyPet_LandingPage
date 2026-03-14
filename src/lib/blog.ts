@@ -1,20 +1,4 @@
-export type BlogBlock =
-  | {
-      type: 'paragraph';
-      text: string;
-    }
-  | {
-      type: 'heading';
-      text: string;
-    }
-  | {
-      type: 'list';
-      items: string[];
-    }
-  | {
-      type: 'quote';
-      text: string;
-    };
+import { sanityClient } from './sanityClient'
 
 export interface BlogPost {
   id: string;
@@ -26,12 +10,7 @@ export interface BlogPost {
   category: string;
   readTime?: string;
   featured?: boolean;
-  published?: boolean;
-  content: BlogBlock[];
-}
-
-interface BlogPostsResponse {
-  posts: BlogPost[];
+  content: any[];
 }
 
 export function formatBlogDate(date: string) {
@@ -43,25 +22,37 @@ export function formatBlogDate(date: string) {
 }
 
 export async function fetchBlogPosts(): Promise<BlogPost[]> {
-  const response = await fetch('/data/blog-posts.json');
-
-  if (!response.ok) {
-    throw new Error('Failed to load blog posts');
-  }
-
-  const data: BlogPostsResponse = await response.json();
-
-  return (data.posts || [])
-    .filter((post) => post.published !== false)
-    .sort(
-      (a, b) =>
-        new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
-    );
+  const posts = await sanityClient.fetch(`
+    *[_type == "blogPost"] | order(publishedAt desc) {
+      "id": _id,
+      "slug": slug.current,
+      title,
+      excerpt,
+      "coverImage": coverImage.asset->url,
+      publishedAt,
+      category,
+      readTime,
+      featured,
+      content
+    }
+  `)
+  return posts
 }
 
-export async function fetchBlogPostBySlug(
-  slug: string
-): Promise<BlogPost | null> {
-  const posts = await fetchBlogPosts();
-  return posts.find((post) => post.slug === slug) || null;
+export async function fetchBlogPostBySlug(slug: string): Promise<BlogPost | null> {
+  const post = await sanityClient.fetch(`
+    *[_type == "blogPost" && slug.current == $slug][0] {
+      "id": _id,
+      "slug": slug.current,
+      title,
+      excerpt,
+      "coverImage": coverImage.asset->url,
+      publishedAt,
+      category,
+      readTime,
+      featured,
+      content
+    }
+  `, { slug })
+  return post || null
 }
