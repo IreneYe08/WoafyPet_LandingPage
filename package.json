@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && node scripts/generate-sitemap.mjs && node scripts/generate-rss.mjs",
+    "build": "vite build && node scripts/generate-sitemap.mjs && node scripts/generate-rss.mjs && node scripts/generate-static-blog.mjs",
     "preview": "vite preview",
     "start": "node server.js",
     "heroku-postbuild": "npm run build",
