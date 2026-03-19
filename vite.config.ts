@@ -3,7 +3,6 @@ import { fileURLToPath, URL } from 'url'
 import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
 
-// 自定义插件：将 ../assets/xxx.png 解析为 src/assets/xxx.png
 function figmaAssetPlugin() {
   return {
     name: 'figma-asset-resolver',
@@ -30,7 +29,6 @@ export default defineConfig({
     },
   },
   server: {
-    // Proxy /api to the local Express server so the form works during `npm run dev`
     proxy: {
       '/api': 'http://localhost:3000',
     },
