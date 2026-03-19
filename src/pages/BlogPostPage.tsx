@@ -14,7 +14,7 @@ export default function BlogPostPage() {
       setPost(data);
       if (!data) return;
 
-      const url = `https://woafypet.com/blog/${data.slug}`;
+      const url = `https://woafy.pet/blog/${data.slug}`;
       document.title = `${data.title} | WoafyPet Care Guides`;
 
       const metaDesc = document.querySelector("meta[name='description']") || document.createElement('meta');

@@ -1,6 +1,6 @@
 import fs from "fs";
 
-const site = "https://woafypet.com";
+const site = "https://woafy.pet";
 
 const posts = JSON.parse(
   fs.readFileSync("./public/data/blog-posts.json")
