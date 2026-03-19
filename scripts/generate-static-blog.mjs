@@ -66,7 +66,6 @@ function generateHtml(post) {
     }
   }
   </script>
-  <meta http-equiv="refresh" content="0;url=/blog/${post.slug}">
 </head>
 <body>
   <article>
@@ -76,10 +75,6 @@ function generateHtml(post) {
     <p>${post.excerpt || ''}</p>
     ${contentHtml}
   </article>
-  <script>
-    // Redirect to React app for full experience
-    window.location.replace('/blog/${post.slug}');
-  </script>
 </body>
 </html>`
 }
