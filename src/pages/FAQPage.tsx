@@ -18,8 +18,8 @@ const faqSections: FAQSection[] = [
     title: 'About WoafyPet Bed',
     items: [
       {
-        question: ‘When will WoafyPet Bed be available?’,
-        textAnswer: ‘WoafyPet Bed is currently in the product development and testing stage. We are actively refining the hardware, monitoring algorithms, and comfort design. Our current plan is to launch WoafyPet Bed on Kickstarter in May 2026. You can follow our progress on this website or our social media channels.’,
+        question: 'When will WoafyPet Bed be available?',
+        textAnswer: 'WoafyPet Bed is currently in the product development and testing stage. We are actively refining the hardware, monitoring algorithms, and comfort design. Our current plan is to launch WoafyPet Bed on Kickstarter in May 2026. You can follow our progress on this website or our social media channels.',
         answer: (
           <>
             <p>
@@ -44,8 +44,8 @@ const faqSections: FAQSection[] = [
         ),
       },
       {
-        question: ‘What makes WoafyPet Bed different from a normal dog bed?’,
-        textAnswer: ‘Most dog beds only provide a place for your dog to sleep. WoafyPet Bed combines a comfortable resting space with built-in health monitoring. While your dog rests, the system can monitor breathing rate, heart rate, and sleep patterns, helping you understand your dog\’s daily health condition and long-term trends.’,
+        question: 'What makes WoafyPet Bed different from a normal dog bed?',
+        textAnswer: 'Most dog beds only provide a place for your dog to sleep. WoafyPet Bed combines a comfortable resting space with built-in health monitoring. While your dog rests, the system can monitor breathing rate, heart rate, and sleep patterns, helping you understand your dog\'s daily health condition and long-term trends.',
         answer: (
           <>
             <p>Most dog beds only provide a place for your dog to sleep.</p>
@@ -53,7 +53,7 @@ const faqSections: FAQSection[] = [
               WoafyPet Bed combines a comfortable resting space with built-in
               health monitoring. While your dog rests, the system can monitor
               breathing rate, heart rate, and sleep patterns, helping you
-              understand your dog’s daily health condition and long-term trends.
+              understand your dog's daily health condition and long-term trends.
             </p>
             <p className="mt-6">
               The goal is to help owners notice meaningful changes earlier and
@@ -63,8 +63,8 @@ const faqSections: FAQSection[] = [
         ),
       },
       {
-        question: ‘How does WoafyPet Bed monitor my dog\u2019s health?’,
-        textAnswer: ‘WoafyPet Bed uses integrated sensors inside the bed to detect subtle body movements while your dog rests. From these signals, the system estimates breathing rate, heart rate, sleep patterns, and resting behavior trends. All monitoring happens automatically while your dog sleeps or relaxes on the bed.’,
+        question: 'How does WoafyPet Bed monitor my dog\u2019s health?',
+        textAnswer: 'WoafyPet Bed uses integrated sensors inside the bed to detect subtle body movements while your dog rests. From these signals, the system estimates breathing rate, heart rate, sleep patterns, and resting behavior trends. All monitoring happens automatically while your dog sleeps or relaxes on the bed.',
         answer: (
           <>
             <p>
@@ -86,22 +86,22 @@ const faqSections: FAQSection[] = [
         ),
       },
       {
-        question: ‘Is WoafyPet Bed a medical device?’,
-        textAnswer: ‘No. WoafyPet Bed is not a medical device. It is designed to provide helpful health insights and observational data based on your dog\’s resting signals.’,
+        question: 'Is WoafyPet Bed a medical device?',
+        textAnswer: 'No. WoafyPet Bed is not a medical device. It is designed to provide helpful health insights and observational data based on your dog\'s resting signals.',
         answer: (
           <>
             <p>No.</p>
             <p className="mt-6">
               WoafyPet Bed is not a medical device. It is designed to provide
-              helpful health insights and observational data based on your dog’s
+              helpful health insights and observational data based on your dog's
               resting signals.
             </p>
           </>
         ),
       },
       {
-        question: ‘Can WoafyPet Bed diagnose health problems?’,
-        textAnswer: ‘No. WoafyPet Bed does not diagnose illnesses and cannot replace veterinary care. The system provides health insights and trend observations. If you notice unusual changes in your dog\’s breathing, heart rate, sleep, or behavior, you should consult a licensed veterinarian.’,
+        question: 'Can WoafyPet Bed diagnose health problems?',
+        textAnswer: 'No. WoafyPet Bed does not diagnose illnesses and cannot replace veterinary care. The system provides health insights and trend observations. If you notice unusual changes in your dog\'s breathing, heart rate, sleep, or behavior, you should consult a licensed veterinarian.',
         answer: (
           <>
             <p>No.</p>
@@ -111,7 +111,7 @@ const faqSections: FAQSection[] = [
             </p>
             <p className="mt-6">
               The system provides health insights and trend observations. If you
-              notice unusual changes in your dog’s breathing, heart rate, sleep,
+              notice unusual changes in your dog's breathing, heart rate, sleep,
               or behavior, you should consult a licensed veterinarian.
             </p>
           </>
@@ -263,12 +263,12 @@ const faqSections: FAQSection[] = [
     title: 'App & Monitoring',
     items: [
       {
-        question: ‘What information does the WoafyPet app show?’,
-        textAnswer: ‘The WoafyPet app provides insights based on your dog\’s resting data, including breathing rate trends, heart rate trends, sleep duration and sleep patterns, and changes in resting behavior. These insights help owners better understand their dog\’s overall health patterns.’,
+        question: 'What information does the WoafyPet app show?',
+        textAnswer: 'The WoafyPet app provides insights based on your dog\'s resting data, including breathing rate trends, heart rate trends, sleep duration and sleep patterns, and changes in resting behavior. These insights help owners better understand their dog\'s overall health patterns.',
         answer: (
           <>
             <p>
-              The WoafyPet app provides insights based on your dog’s resting
+              The WoafyPet app provides insights based on your dog's resting
               data, including:
             </p>
             <ul className="mt-6 list-disc space-y-2 pl-6">
@@ -278,32 +278,32 @@ const faqSections: FAQSection[] = [
               <li>changes in resting behavior</li>
             </ul>
             <p className="mt-6">
-              These insights help owners better understand their dog’s overall
+              These insights help owners better understand their dog's overall
               health patterns.
             </p>
           </>
         ),
       },
       {
-        question: "Can I check my dog when I’m away from home?",
-        textAnswer: ‘Yes. When connected to the WoafyPet app, you can view your dog\’s health insights remotely and stay informed about their resting condition.’,
+        question: "Can I check my dog when I'm away from home?",
+        textAnswer: 'Yes. When connected to the WoafyPet app, you can view your dog\'s health insights remotely and stay informed about their resting condition.',
         answer: (
           <>
             <p>Yes.</p>
             <p className="mt-6">
-              When connected to the WoafyPet app, you can view your dog’s health
+              When connected to the WoafyPet app, you can view your dog's health
               insights remotely and stay informed about their resting condition.
             </p>
           </>
         ),
       },
       {
-        question: ‘Will the system alert me if something changes?’,
-        textAnswer: ‘The system may highlight unusual changes or trends in your dog\’s resting data. These alerts are informational and meant to encourage closer observation. They are not medical diagnoses.’,
+        question: 'Will the system alert me if something changes?',
+        textAnswer: 'The system may highlight unusual changes or trends in your dog\'s resting data. These alerts are informational and meant to encourage closer observation. They are not medical diagnoses.',
         answer: (
           <>
             <p>
-              The system may highlight unusual changes or trends in your dog’s
+              The system may highlight unusual changes or trends in your dog's
               resting data.
             </p>
             <p className="mt-6">
@@ -427,7 +427,7 @@ export default function FAQPage() {
             WoafyPet Bed is not a medical device and does not provide medical
             diagnosis or treatment. It is designed to provide observational
             health insights for at-home monitoring. If you notice concerning
-            changes in your dog’s health, please consult a licensed
+            changes in your dog's health, please consult a licensed
             veterinarian.
           </p>
         </div>
