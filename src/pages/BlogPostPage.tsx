@@ -39,8 +39,37 @@ export default function BlogPostPage() {
     );
   }
 
+  const breadcrumbSchema = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://woafy.pet/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Care Guides',
+        item: 'https://woafy.pet/blog',
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: post.title,
+        item: `https://woafy.pet/blog/${post.slug}`,
+      },
+    ],
+  });
+
   return (
     <main className="mx-auto max-w-3xl px-6 py-16">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: breadcrumbSchema }}
+      />
       <Link to="/blog" className="text-sm text-[#FD8829]">← Back to Care Guides</Link>
 
       <h1 className="mt-6 text-4xl font-bold">{post.title}</h1>

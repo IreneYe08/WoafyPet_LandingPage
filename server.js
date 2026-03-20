@@ -724,6 +724,19 @@ app.use(express.static(distPath, {
 }));
 
 app.get('*', (_req, res) => {
+  // Serve pre-rendered HTML when available (better SEO crawlability)
+  const cleanPath = _req.path !== '/' && _req.path.endsWith('/')
+    ? _req.path.slice(0, -1)
+    : _req.path;
+
+  if (cleanPath !== '/') {
+    const preRenderedFile = path.join(distPath, cleanPath.slice(1), 'index.html');
+    if (fs.existsSync(preRenderedFile)) {
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+      return res.sendFile(preRenderedFile);
+    }
+  }
+
   res.sendFile(path.join(distPath, 'index.html'));
 });
 
