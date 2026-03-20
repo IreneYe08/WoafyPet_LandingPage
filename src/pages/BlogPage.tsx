@@ -45,8 +45,31 @@ export default function BlogPage() {
 
   const isEmpty = !loading && posts.length === 0;
 
+  const breadcrumbSchema = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://woafy.pet/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Care Guides',
+        item: 'https://woafy.pet/blog',
+      },
+    ],
+  });
+
   return (
     <main className="min-h-screen bg-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: breadcrumbSchema }}
+      />
 
       {/* Navbar */}
       <nav
