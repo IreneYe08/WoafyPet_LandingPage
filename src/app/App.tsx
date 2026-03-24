@@ -150,7 +150,7 @@ function LandingPage() {
       <VetRecommendedSection />
       <MediaLogosSection />
       <TestimonialsSection />
-      <FounderStorySection />
+      {/* <FounderStorySection /> */}
       <SpecificationsSection />
       <GuaranteeSection onOpenModal={openModal} />
 
